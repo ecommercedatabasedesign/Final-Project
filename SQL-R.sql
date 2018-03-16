@@ -5,7 +5,22 @@ CREATE TABLE "Store" (
 );
 
 CREATE TABLE "Product"(
-  "ProductID" CHAR(10) NOT NULL,
-  "StoreID" INTEGER,
-   "OrderID"
-)
+  "ID" CHAR(10) NOT NULL,
+  "StoreID" INTEGER NOT NULL,
+   "Price" NUMBER NOT NULL,
+   "Description" TEXT,
+   "Inventory" NUMBER,
+   FOREIGN KEY(StoreID) REFERENCES Store(StoreID),
+   CONSTRAINT ProductID PRIMARY KEY(ID, StoreID)
+);
+
+CREATE TABLE "Transaction"(
+  "TransID" INTEGER PRIMARY KEY NOT NULL,
+  "ProductID" CHAR(30) NOT NULL,
+  "OrderID" INTEGER NOT NULL,
+  "Price" NUMBER NOT NULL,
+  "Time" TIME NOT NULL,
+  "Purchase_amount" NUMBER NOT NULL,
+  FOREIGN KEY(ProductID) REFERENCES Product(ProductID),
+  FOREIGN KEY(OrderID) REFERENCES Order(OrderID)
+);
