@@ -1,0 +1,11 @@
+﻿ID,StoreID,Price,Description,Inventory
+1,1,10,Test1,10
+2,2,20,Test2,20
+3,3,50,Test3,100
+4,4,100,Test4,160
+5,5,300,Test5,300
+6,6,30,Test6,60
+7,7,60,Test7,3
+8,8,80,Test8,60
+9,9,880,Test9,90
+10,10,160,Test10,10
