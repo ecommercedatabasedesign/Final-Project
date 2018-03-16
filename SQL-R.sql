@@ -1,3 +1,4 @@
+/*Create tables*/
 CREATE TABLE "Store" (
   "StoreID" INTEGER PRIMARY KEY NOT NULL,
   "Store Name" CHAR(20) UNIQUE NOT NULL,
@@ -10,6 +11,7 @@ CREATE TABLE "Product"(
    "Price" NUMBER NOT NULL,
    "Description" TEXT,
    "Inventory" NUMBER,
+   "Name" CHAR(30),
    FOREIGN KEY(StoreID) REFERENCES Store(StoreID),
    CONSTRAINT ProductID PRIMARY KEY(ID, StoreID)
 );
@@ -26,5 +28,14 @@ CREATE TABLE "Transaction"(
   "Time" TIME NOT NULL,
   "Purchase_amount" NUMBER NOT NULL,
   FOREIGN KEY(ProductID, StoreID) REFERENCES Product,
-  FOREIGN KEY(OrderID) REFERENCES Order(OrderID)
+  FOREIGN KEY(OrderID) REFERENCES 'Order'(OrderID)
 );
+
+/*Queries 2*/
+SELECT* FROM 'Product'
+WHERE 'Name' = 'Q'
+
+/*Queries 8*/
+INSERT INTO 'Product' VALUES('15', '8', '8', 'Test15', '10', 'Pen');
+
+/*Queries */
