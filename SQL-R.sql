@@ -43,11 +43,17 @@ For Buyer that has used all the payment method under the buyer's name
  */
 
  SELECT B.BuyerID, B.Username
- FROM Buyer AS B
- WHERE NOT EXISTS (SELECT PayID FROM Payment_Method EXCEPT
-   (SELECT P.PayID FROM Payment AS P, Payment_Method AS PM
-     WHERE P.PayID = PM.PayID))
-
+ FROM Buyer B
+ WHERE NOT EXISTS (SELECT PayID FROM Payment_Method PM WHERE PM.BuyerID = B.BuyerID EXCEPT
+   SELECT P.PayID FROM Payment P
+     WHERE P.PayerID = B.BuyerID)
+/*Queries
+For Buyer that has used all the payment method under the buyer's name(Non-correlated)
+*/
+SELECT B.BuyerID, B.Username
+FROM Buyer B
+WHERE NOT EXISTS (SELECT PayID FROM Payment_Method PM WHERE PM.BuyerID = B.BuyerID EXCEPT
+  SELECT P.PayID FROM Payment P)
 /*Queries
 Select orderid that is placed by buyer 1 using payment method 1
 */
