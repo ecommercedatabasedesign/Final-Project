@@ -38,4 +38,18 @@ WHERE 'Name' = 'Q'
 /*Queries 8*/
 INSERT INTO 'Product' VALUES('15', '8', '8', 'Test15', '10', 'Pen');
 
-/*Queries */
+/*Queries
+For Buyer that has used all the payment method under the buyer's name
+ */
+
+ SELECT B.BuyerID, B.Username
+ FROM Buyer AS B
+ WHERE NOT EXISTS (SELECT PayID FROM Payment_Method EXCEPT
+   (SELECT P.PayID FROM Payment AS P, Payment_Method AS PM
+     WHERE P.PayID = PM.PayID))
+
+/*Queries
+Select orderid that is placed by buyer 1 using payment method 1
+*/
+SELECT O.OrderID FROM Order AS O
+WHERE O.OrderID IN (SELECT )
