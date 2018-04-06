@@ -47,15 +47,28 @@ For Buyer that has used all the payment method under the buyer's name
  WHERE NOT EXISTS (SELECT PayID FROM Payment_Method PM WHERE PM.BuyerID = B.BuyerID EXCEPT
    SELECT P.PayID FROM Payment P
      WHERE P.PayerID = B.BuyerID)
+
 /*Queries
-For Buyer that has used all the payment method under the buyer's name(Non-correlated)
+For Buyer that has not used all the payment method under the buyer's name(Noncorrelated)
 */
 SELECT B.BuyerID, B.Username
 FROM Buyer B
-WHERE NOT EXISTS (SELECT PayID FROM Payment_Method PM WHERE PM.BuyerID = B.BuyerID EXCEPT
+WHERE EXISTS (SELECT PayID FROM Payment_Method PM WHERE PM.BuyerID = B.BuyerID EXCEPT
   SELECT P.PayID FROM Payment P)
+
 /*Queries
-Select orderid that is placed by buyer 1 using payment method 1
+Select payment method has not been used (Noncorrelated)
 */
-SELECT O.OrderID FROM Order AS O
-WHERE O.OrderID IN (SELECT )
+SELECT PayID FROM Payment_Method PM EXCEPT
+  SELECT P.PayID FROM Payment P
+
+
+/*Queries
+Select product that has been ordered by customer 1
+*/
+SELECT ProductID, StoreID FROM 'Transaction' WHERE OrderID IN (SELECT OrderID FROM 'ORDER' WHERE BuyerID =  1)
+
+/*Queries
+Select Transactions that has been shipped
+*/
+SELECT TransID FROM 'Transaction' T WHERE OrderID IN (Select OrderID FROM 'Order' WHERE BuyerID = 1 INTERSECT SELECT OrderID FROM Shipment S WHERE S.OrderID = T.OrderID)  

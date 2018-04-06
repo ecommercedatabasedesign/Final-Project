@@ -178,3 +178,42 @@ values (1, 1, 472409009120, "Ziqian"),
 			 (8, 8, 472409009127, "Mike"),
 			 (9, 9, 472409009128, "Allen"),
 			 (10, 10, 472409009129, "Amber");
+
+
+
+
+
+       /*Queries
+       For Buyer that has used all the payment method under the buyer's name
+        */
+
+        SELECT B.BuyerID, B.Username
+        FROM Buyer B
+        WHERE NOT EXISTS (SELECT PayID FROM Payment_Method PM WHERE PM.BuyerID = B.BuyerID EXCEPT
+          SELECT P.PayID FROM Payment P
+            WHERE P.PayerID = B.BuyerID)
+
+       /*Queries
+       For Buyer that has not used all the payment method under the buyer's name(Noncorrelated)
+       */
+       SELECT B.BuyerID, B.Username
+       FROM Buyer B
+       WHERE EXISTS (SELECT PayID FROM Payment_Method PM WHERE PM.BuyerID = B.BuyerID EXCEPT
+         SELECT P.PayID FROM Payment P)
+
+       /*Queries
+       Select payment method has not been used (Noncorrelated)
+       */
+       SELECT PayID FROM Payment_Method PM EXCEPT
+         SELECT P.PayID FROM Payment P
+
+
+       /*Queries
+       Select product that has been ordered by customer 1
+       */
+       SELECT ProductID, StoreID FROM 'Transaction' WHERE OrderID IN (SELECT OrderID FROM 'ORDER' WHERE BuyerID =  1)
+
+       /*Queries
+       Select Transactions that has been shipped
+       */
+       SELECT TransID FROM 'Transaction' T WHERE OrderID IN (Select OrderID FROM 'Order' WHERE BuyerID = 1 INTERSECT SELECT OrderID FROM Shipment S WHERE S.OrderID = T.OrderID)
